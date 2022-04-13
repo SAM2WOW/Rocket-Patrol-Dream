@@ -28,7 +28,7 @@ class Spaceship extends Phaser.Physics.Arcade.Sprite {
         }
 
         // random chance to fire
-        if(Math.random() > 0.99) {
+        if(!this.killed && Math.random() > 0.99) {
             this.fire();
         }
     }

@@ -22,7 +22,7 @@ class Play extends Phaser.Scene {
         // parallax backgrounds
         this.bg = this.add.tileSprite(0, 0, 1920, 1080, 'bg').setOrigin(0, 0);
         this.bg2 = this.add.tileSprite(0, 0, 1920, 1080, 'bg2').setOrigin(0, 0);
-        this.bg2.tilePositionX = 500;
+        this.bg2.tilePositionX = Math.random() * 500;
 
         this.bg3 = this.add.tileSprite(0, 0, 1920, 1080, 'bg3').setOrigin(0, 0);
         this.bg4 = this.add.tileSprite(0, 0, 1920, 1080, 'bg4').setOrigin(0, 0);
@@ -190,7 +190,7 @@ class Play extends Phaser.Scene {
 
         this.screenShake();
 
-        let boom = this.add.sprite(ship.x, ship.y, 'explosion').setOrigin(0, 0);
+        let boom = this.add.sprite(ship.x, ship.y, 'explosion').setOrigin(0.5, 0.5);
         boom.anims.play('explode');
         boom.on('animationcomplete', () => {
             ship.reset();
@@ -201,6 +201,11 @@ class Play extends Phaser.Scene {
 
     rocketExplode(bullet) {
         if (!this.gameOver) {
+            this.rocket.destroy();
+
+            this.ships.runChildUpdate = false;
+            this.bullets.runChildUpdate = false;
+
             this.stopGame();
         }
     }
@@ -211,7 +216,7 @@ class Play extends Phaser.Scene {
         this.add.text(game.config.width/2, game.config.height/2, 'GAME OVER', this.scoreConfig).setOrigin(0.5);
         this.guide = this.add.text(game.config.width/2, game.config.height/2 + 64, 'Press [R] to Restart or [M] for Menu', this.scoreConfig);
         this.guide.setOrigin(0.5, 0.5);
-        this.guide.setFontSize(20);
+        this.guide.setFontSize(60);
         
     }
 }

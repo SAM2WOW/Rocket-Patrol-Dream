@@ -25,8 +25,8 @@ class Menu extends Phaser.Scene {
 
         // add tutorials
         this.add.text(game.config.width / 2, game.config.height / 2 - 150, "hope you have a ...", {fontFamily: 'PixelFont', fontSize: 50}).setOrigin(0.5, 0.5);
-        this.add.text(game.config.width / 2, game.config.height / 2 + 300, "Use ← → to move / [F] to fire", {fontFamily: 'PixelFont', fontSize: 30}).setOrigin(0.5, 0.5);
-        this.add.text(game.config.width / 2, game.config.height / 2 + 350, "← for Novice | → for Expert", {fontFamily: 'PixelFont', fontSize: 50}).setOrigin(0.5, 0.5);
+        this.add.text(game.config.width / 2, game.config.height / 2 + 300, "[←] [→] Move | [F] Fire | [F11] Toggle Fullscreen", {fontFamily: 'PixelFont', fontSize: 30}).setOrigin(0.5, 0.5);
+        this.add.text(game.config.width / 2, game.config.height / 2 + 350, "[←] for Novice | [→] for Expert", {fontFamily: 'PixelFont', fontSize: 50}).setOrigin(0.5, 0.5);
         
         // define keys
         keyLEFT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
