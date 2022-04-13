@@ -11,9 +11,9 @@ class Menu extends Phaser.Scene {
         this.load.audio('sfx_rocket', 'assets/shoot.wav');
     }
     create() {
-        this.bg = this.add.tileSprite(0, 0, 640, 480, 'bg').setOrigin(0, 0);
+        this.bg = this.add.tileSprite(0, 0, 1920, 1080, 'bg').setOrigin(0, 0);
 
-        this.title = this.add.text(320, 200, "Rocket Patrol Ultimate");
+        this.title = this.add.text(320, 200, "SWEET DREAM");
 
         this.title.setFontFamily('PixelFont');
         this.title.setFontSize(40);
@@ -39,7 +39,7 @@ class Menu extends Phaser.Scene {
         if (Phaser.Input.Keyboard.JustDown(keyLEFT)) {
             // easy mode
             game.settings = {
-                spaceshipSpeed: 3,
+                spaceshipSpeed: 6,
                 gameTimer: 60000
             }
             this.sound.play('sfx_select');
@@ -48,7 +48,7 @@ class Menu extends Phaser.Scene {
         if (Phaser.Input.Keyboard.JustDown(keyRIGHT)) {
             // expert mode
             game.settings = {
-                spaceshipSpeed: 4,
+                spaceshipSpeed: 8,
                 gameTimer: 45000
             }
             this.sound.play('sfx_select');

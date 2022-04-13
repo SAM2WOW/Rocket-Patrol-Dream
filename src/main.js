@@ -1,8 +1,26 @@
 var config = {
     type: Phaser.AUTO,
-    width: 640,
-    height: 480,
-    scene: [Menu, Play]
+    scale: {
+        mode: Phaser.Scale.FIT,
+        parent: 'phaser-example',
+        autoCenter: Phaser.Scale.CENTER_BOTH,
+        width: 1920,
+        height: 1080
+    },
+    physics: {
+        default: "arcade",
+        arcade: {
+            debug: true
+        }
+    },
+    scene: [Menu, Play],
+    callbacks: {
+        postBoot: function (game) {
+          // In v3.15, you have to override Phaser's default styles
+          game.canvas.style.width = '100%';
+          game.canvas.style.height = '100%';
+        }
+    }
 };
 
 let game = new Phaser.Game(config);

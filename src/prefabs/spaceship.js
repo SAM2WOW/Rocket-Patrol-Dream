@@ -1,23 +1,38 @@
-class Spaceship extends Phaser.GameObjects.Sprite {
+class Spaceship extends Phaser.Physics.Arcade.Sprite {
     constructor(scene, x, y, texture, frame, pointValue) {
         super(scene, x, y, texture, frame);
         scene.add.existing(this);
+        scene.physics.add.existing(this);
 
         this.points = pointValue;
         this.moveSpeed = game.settings.spaceshipSpeed;
+
+        this.random_speed_multiplier = Math.random() * (1.5 - 0.5) + 0.5;
+
+        this.abwidth = 309;
+        this.abheight = 211;
+        this.body.setSize(this.abwidth, this.abheight);
+
+        this.killed = false;
     }
 
     update(time, delta) {
         // move spaceship left
-        this.x -= this.moveSpeed * delta / 16;
+        this.x -= this.moveSpeed * this.random_speed_multiplier * delta / 16;
 
         // wrap around
-        if(this.x <= 0 - this.width) {
-            this.x = game.config.width;
+        if(this.x <= 0 - this.width / 2) {
+            this.reset();
         }
+
+        // new Bullet(this, this.x, this.y, 'bullet');
     }
 
     reset() {
-        this.x = game.config.width;
+        this.x = game.config.width + this.width / 2;
+        
+        this.random_speed_multiplier = Math.random() * (1.5 - 0.5) + 0.5;
+        
+        this.killed = false;
     }
 }
