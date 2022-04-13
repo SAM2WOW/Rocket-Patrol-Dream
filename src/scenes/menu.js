@@ -12,11 +12,11 @@ class Menu extends Phaser.Scene {
     }
     create() {
         this.bg = this.add.tileSprite(0, 0, 1920, 1080, 'bg').setOrigin(0, 0);
-
-        this.title = this.add.text(320, 200, "SWEET DREAM");
+        
+        this.title = this.add.text(game.config.width / 2, game.config.height / 2, "Sweet Dream");
 
         this.title.setFontFamily('PixelFont');
-        this.title.setFontSize(40);
+        this.title.setFontSize(150);
         this.title.setColor('#ffffff');
         this.title.setStroke('#000000', 5);
         this.title.setShadow(2, 2, "#333333", 2, false, true);
@@ -24,8 +24,9 @@ class Menu extends Phaser.Scene {
         this.title.setDepth(1);
 
         // add tutorials
-        this.add.text(320, 300, "Use ⬅️➡️ to move / [F] to fire", {fontFamily: 'PixelFont'}).setOrigin(0.5, 0.5);
-        this.add.text(320, 350, "Press ⬅️ for Novice or ➡️ for Expert", {fontFamily: 'PixelFont'}).setOrigin(0.5, 0.5);
+        this.add.text(game.config.width / 2, game.config.height / 2 - 150, "hope you have a ...", {fontFamily: 'PixelFont', fontSize: 50}).setOrigin(0.5, 0.5);
+        this.add.text(game.config.width / 2, game.config.height / 2 + 300, "Use ← → to move / [F] to fire", {fontFamily: 'PixelFont', fontSize: 30}).setOrigin(0.5, 0.5);
+        this.add.text(game.config.width / 2, game.config.height / 2 + 350, "← for Novice | → for Expert", {fontFamily: 'PixelFont', fontSize: 50}).setOrigin(0.5, 0.5);
         
         // define keys
         keyLEFT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
