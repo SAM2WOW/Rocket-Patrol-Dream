@@ -41,6 +41,7 @@ class Menu extends Phaser.Scene {
             // easy mode
             game.settings = {
                 spaceshipSpeed: 6,
+                bulletTime: 2000,
                 gameTimer: 60000
             }
             this.sound.play('sfx_select');
@@ -50,6 +51,7 @@ class Menu extends Phaser.Scene {
             // expert mode
             game.settings = {
                 spaceshipSpeed: 8,
+                bulletTime: 1000,
                 gameTimer: 45000
             }
             this.sound.play('sfx_select');

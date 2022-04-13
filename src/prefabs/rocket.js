@@ -26,11 +26,11 @@ class Rocket extends Phaser.Physics.Arcade.Sprite {
         if (true) {
             if (keyLEFT.isDown && this.x >= 0) {
                 this.x -= this.moveSpeed * delta / 16;
-                this.setRotation(this.lerp(this.rotation, -Math.PI / 3, 0.2));
+                this.setRotation(this.lerp(this.rotation, -Math.PI / 5, 0.2));
             }
             else if (keyRIGHT.isDown && this.x <= game.config.width) {
                 this.x += this.moveSpeed * delta / 16;
-                this.setRotation(this.lerp(this.rotation, Math.PI / 3, 0.2));
+                this.setRotation(this.lerp(this.rotation, Math.PI / 5, 0.2));
             }
             else {
                 this.setRotation(this.lerp(this.rotation, 0, 0.2));
@@ -61,12 +61,18 @@ class Rocket extends Phaser.Physics.Arcade.Sprite {
 
         // spawn animation
         this.setScale(0);
+        this.setAlpha(0.7);
+        this.body.enable = false;
         this.scene.tweens.add({
             targets: this,
             duration: 500,
             scaleX: { from: 0, to: 1 },
             scaleY: { from: 0, to: 1 },
             ease: 'Bounce.Out',
+            onComplete: () => {
+                this.body.enable = true;
+                this.setAlpha(1);
+            }
         });
     }
 }

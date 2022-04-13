@@ -22,10 +22,13 @@ class Play extends Phaser.Scene {
         // parallax backgrounds
         this.bg = this.add.tileSprite(0, 0, 1920, 1080, 'bg').setOrigin(0, 0);
         this.bg2 = this.add.tileSprite(0, 0, 1920, 1080, 'bg2').setOrigin(0, 0);
-        this.bg2.tilePositionX = Math.random() * 500;
+        this.bg2.tilePositionX = Math.random() * 1920;
 
         this.bg3 = this.add.tileSprite(0, 0, 1920, 1080, 'bg3').setOrigin(0, 0);
+        this.bg3.tilePositionX = Math.random() * 1920;
+
         this.bg4 = this.add.tileSprite(0, 0, 1920, 1080, 'bg4').setOrigin(0, 0);
+        this.bg4.tilePositionX = Math.random() * 1920;
         
         // add rocket
         this.rocket = new Rocket(this, game.config.width / 2, game.config.height - borderUISize - borderPadding, 'rocket');
@@ -38,10 +41,13 @@ class Play extends Phaser.Scene {
         // add 3 ship
         this.ship1 = new Spaceship(this, Math.random() * game.config.width, game.config.height / 2 - 300, 'ship', 0, 30);
         this.ship1.setOrigin(0.5, 0.5);
+        this.ship1.setDepth(1);
         this.ship2 = new Spaceship(this, Math.random() * game.config.width, game.config.height / 2 - 150, 'ship', 0, 20);
         this.ship2.setOrigin(0.5, 0.5);
+        this.ship2.setDepth(1);
         this.ship3 = new Spaceship(this, Math.random() * game.config.width, game.config.height / 2, 'ship', 0, 10);
         this.ship3.setOrigin(0.5, 0.5);
+        this.ship3.setDepth(1);
         
         this.ships = this.physics.add.group();
         this.ships.runChildUpdate = true;
@@ -106,7 +112,7 @@ class Play extends Phaser.Scene {
         }
 
         // keep for going back to menu
-        if (this.gameOver && Phaser.Input.Keyboard.JustDown(keyM)) {
+        if (Phaser.Input.Keyboard.JustDown(keyM)) {
             this.backgroundMusic.stop();
             this.scene.start("menu");
         }
@@ -134,11 +140,15 @@ class Play extends Phaser.Scene {
     }
 
     screenShake() {
+        this.cameras.main.shake(200, 0.005);
+
         this.tweens.add({
             targets: this.bg,
             duration: 200,
             x: { from: 0, to: Math.random() * 5 },
             y: { from: 0, to: Math.random() * 5 },
+            scaleX: { from: 1, to: 1.01 },
+            scaleY: { from: 1, to: 1.01 },
             ease: 'Sine.easeInOut',
             yoyo: true,
             repeat: 1
@@ -148,6 +158,8 @@ class Play extends Phaser.Scene {
             duration: 150,
             x: { from: 0, to: Math.random() * 6 },
             y: { from: 0, to: Math.random() * 6 },
+            scaleX: { from: 1, to: 1.02 },
+            scaleY: { from: 1, to: 1.02 },
             ease: 'Sine.easeInOut',
             yoyo: true,
             repeat: 1
@@ -157,6 +169,8 @@ class Play extends Phaser.Scene {
             duration: 100,
             x: { from: 0, to: Math.random() * 7 },
             y: { from: 0, to: Math.random() * 7 },
+            scaleX: { from: 1, to: 1.03 },
+            scaleY: { from: 1, to: 1.03 },
             ease: 'Sine.easeInOut',
             yoyo: true,
             repeat: 1
@@ -166,6 +180,8 @@ class Play extends Phaser.Scene {
             duration: 80,
             x: { from: 0, to: Math.random() * 8 },
             y: { from: 0, to: Math.random() * -8 },
+            scaleX: { from: 1, to: 1.04 },
+            scaleY: { from: 1, to: 1.04 },
             ease: 'Sine.easeInOut',
             yoyo: true,
             repeat: 1

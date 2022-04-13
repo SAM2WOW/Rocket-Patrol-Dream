@@ -14,12 +14,18 @@ class Bullet extends Phaser.Physics.Arcade.Sprite {
 
         // spawn animation
         this.setScale(0);
+        this.body.enable = false;
         this.scene.tweens.add({
             targets: this,
             duration: 500,
             scaleX: { from: 0, to: 1 },
             scaleY: { from: 0, to: 1 },
+            y: { from: this.y - 200, to: this.y },
+            rotation: { from: this.rotation + Math.PI / 2, to: this.rotation},
             ease: 'Bounce.Out',
+            onComplete: () => {
+                this.body.enable = true;
+            }
         });
     }
 

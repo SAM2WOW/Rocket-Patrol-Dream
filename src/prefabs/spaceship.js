@@ -15,12 +15,33 @@ class Spaceship extends Phaser.Physics.Arcade.Sprite {
 
         this.killed = false;
 
+        this.firetimer = 0.0;
+
         this.reset();
+        
+        var particles = this.scene.add.particles('rocket');
+        this.emitter = particles.createEmitter({
+            x: this.x + 349 - this.width / 2,
+            y: this.y + 131 - this.height / 2,
+            angle: { min: 80, max: 100 },
+            scaleX: { min: 0.2, max: 0.5 },
+            scaleY: { min: 0.2, max: 0.5 },
+            frequency: 100,
+            speed: 100,
+            rotate: { min: 0, max: 360 },
+            gravityY: 0,
+            lifespan: { min: 500, max: 1000 },
+            alpha: { start: 1, end: 0 },
+            blendMode: 'OVERLAY'
+        });
     }
 
     update(time, delta) {
         // move spaceship left
         this.x -= this.moveSpeed * this.random_speed_multiplier * delta / 16;
+
+        // move particles
+        this.emitter.setPosition(this.x + 349 - this.width / 2, this.y + 131 - this.height / 2);
 
         // wrap around
         if(this.x <= 0 - this.width / 2) {
@@ -28,8 +49,10 @@ class Spaceship extends Phaser.Physics.Arcade.Sprite {
         }
 
         // random chance to fire
-        if(!this.killed && Math.random() > 0.99) {
+        this.firetimer += delta;
+        if(!this.killed && this.firetimer >= game.settings.bulletTime) {
             this.fire();
+            this.firetimer = 0.0;
         }
     }
 
@@ -39,11 +62,31 @@ class Spaceship extends Phaser.Physics.Arcade.Sprite {
         this.random_speed_multiplier = Math.random() * (1.5 - 0.5) + 0.5;
         
         this.killed = false;
+
+        this.firetimer = 0.0;
+
+        this.scene.tweens.add({
+            targets: this,
+            duration: 4000,
+            rotation: { from: this.rotation + 0.01, to: this.rotation - 0.01},
+            ease: 'Cubic.InOut',
+            yoyo: true,
+        });
     }
 
     fire() {
         // add bullets
         var bullet = new Bullet(this.scene, this.x, this.y, 'bullet');
         this.scene.bullets.add(bullet);
+
+        // animation
+        this.scene.tweens.add({
+            targets: this,
+            duration: 500,
+            scaleX: { from: 1.1, to: 1 },
+            scaleY: { from: 1.1, to: 1 },
+            yoyo: false,
+            ease: 'Cubic.InOut',
+        });
     }
 }
