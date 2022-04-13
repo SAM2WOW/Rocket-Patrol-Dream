@@ -13,7 +13,7 @@ class Play extends Phaser.Scene {
         this.load.image('ship', 'assets/spaceship.png');
         this.load.image('bullet', 'assets/bullet.png');
 
-        this.load.spritesheet('explosion', 'assets/boom.png', {frameWidth: 64, frameHeight: 32, startFrame: 0, endFrame: 9});
+        this.load.spritesheet('explosion', 'assets/boom.png', {frameWidth: 256, frameHeight: 256, startFrame: 0, endFrame: 16});
     
         this.load.audio('bgm', 'assets/bgm.ogg');
     }
@@ -53,12 +53,14 @@ class Play extends Phaser.Scene {
         this.anims.create({
             key: 'explode',
             frames: this.anims.generateFrameNumbers('explosion', { start: 0, end: 9, first: 0}),
-            frameRate: 30
+            frameRate: 30,
+            origin: 0.5
         });
 
         // define keys
         keyF = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.F);
         keyR = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.R);
+        keyM = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.M);
         keyLEFT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
         keyRIGHT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT);
         
@@ -66,25 +68,24 @@ class Play extends Phaser.Scene {
         this.p1Score = 0;
 
         // display score
-        let scoreConfig = {
+        this.scoreConfig = {
             fontFamily: 'PixelFont',
-            fontSize: '28px',
-            backgroundColor: '#F3B141',
-            color: '#843605',
-            align: 'right',
+            fontSize: '60px',
+            color: '#ffffff',
+            align: 'center',
             padding: {
                 top: 5,
                 bottom: 5,
             },
             fixedWidth: 100
         }
-        this.scoreLeft = this.add.text(game.config.width - borderUISize - borderPadding * 2 - 100, borderUISize + borderPadding * 2, this.p1Score, scoreConfig);
+        this.scoreLeft = this.add.text(game.config.width - borderUISize - borderPadding * 2 - 100, borderUISize + borderPadding * 2, this.p1Score, this.scoreConfig);
 
         // GAME OVER flag
         this.gameOver = false;
 
         // 60-second play clock
-        scoreConfig.fixedWidth = 0;
+        this.scoreConfig.fixedWidth = 0;
         this.clock = this.time.delayedCall(game.settings.gameTimer, this.stopGame, null, this);
 
         // play background music
@@ -100,11 +101,13 @@ class Play extends Phaser.Scene {
     update(time, delta) {
         // check key input for restart
         if (Phaser.Input.Keyboard.JustDown(keyR)) {
+            this.backgroundMusic.stop();
             this.scene.restart();
         }
 
         // keep for going back to menu
-        if (this.gameOver && Phaser.Input.Keyboard.JustDown(keyLEFT)) {
+        if (this.gameOver && Phaser.Input.Keyboard.JustDown(keyM)) {
+            this.backgroundMusic.stop();
             this.scene.start("menu");
         }
 
@@ -121,6 +124,11 @@ class Play extends Phaser.Scene {
         this.physics.add.overlap(this.rocket, this.ships, function(rocket, ship){
             this.shipExplode(ship);
             rocket.reset();
+        }, null, this);
+
+        this.physics.add.overlap(this.rocket, this.bullets, function(rocket, bullet){
+            this.rocketExplode(bullet);
+            bullet.destroy();
         }, null, this);
 
     }
@@ -200,8 +208,8 @@ class Play extends Phaser.Scene {
     stopGame() {
         this.gameOver = true;
 
-        this.add.text(game.config.width/2, game.config.height/2, 'GAME OVER', scoreConfig).setOrigin(0.5);
-        this.guide = this.add.text(game.config.width/2, game.config.height/2 + 64, 'Press (R) to Restart or ← for Menu', scoreConfig);
+        this.add.text(game.config.width/2, game.config.height/2, 'GAME OVER', this.scoreConfig).setOrigin(0.5);
+        this.guide = this.add.text(game.config.width/2, game.config.height/2 + 64, 'Press [R] to Restart or [M] for Menu', this.scoreConfig);
         this.guide.setOrigin(0.5, 0.5);
         this.guide.setFontSize(20);
         

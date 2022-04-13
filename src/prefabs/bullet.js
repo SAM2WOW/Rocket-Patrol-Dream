@@ -4,7 +4,7 @@ class Bullet extends Phaser.Physics.Arcade.Sprite {
         scene.add.existing(this);
         scene.physics.add.existing(this);
 
-        this.moveSpeed = 8;
+        this.moveSpeed = 5;
 
         this.sfxRocket = scene.sound.add('sfx_rocket');
 
@@ -12,8 +12,18 @@ class Bullet extends Phaser.Physics.Arcade.Sprite {
         this.abheight = 109;
         this.body.setSize(this.abwidth, this.abheight);
 
-        bullets.add(this);
+        // spawn animation
+        this.setScale(0);
+        this.scene.tweens.add({
+            targets: this,
+            duration: 500,
+            scaleX: { from: 0, to: 1 },
+            scaleY: { from: 0, to: 1 },
+            ease: 'Bounce.Out',
+        });
     }
+
+    
 
     update(time, delta) {
         // move bullet

@@ -14,6 +14,8 @@ class Spaceship extends Phaser.Physics.Arcade.Sprite {
         this.body.setSize(this.abwidth, this.abheight);
 
         this.killed = false;
+
+        this.reset();
     }
 
     update(time, delta) {
@@ -25,7 +27,10 @@ class Spaceship extends Phaser.Physics.Arcade.Sprite {
             this.reset();
         }
 
-        // new Bullet(this, this.x, this.y, 'bullet');
+        // random chance to fire
+        if(Math.random() > 0.99) {
+            this.fire();
+        }
     }
 
     reset() {
@@ -34,5 +39,11 @@ class Spaceship extends Phaser.Physics.Arcade.Sprite {
         this.random_speed_multiplier = Math.random() * (1.5 - 0.5) + 0.5;
         
         this.killed = false;
+    }
+
+    fire() {
+        // add bullets
+        var bullet = new Bullet(this.scene, this.x, this.y, 'bullet');
+        this.scene.bullets.add(bullet);
     }
 }
