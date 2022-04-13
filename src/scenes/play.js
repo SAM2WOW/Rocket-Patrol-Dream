@@ -93,6 +93,10 @@ class Play extends Phaser.Scene {
         this.backgroundMusic.play();
     }
 
+    lerp(start, end, amt) {
+        return (1-amt)*start+amt*end
+    }
+
     update(time, delta) {
         // check key input for restart
         if (Phaser.Input.Keyboard.JustDown(keyR)) {
@@ -121,6 +125,45 @@ class Play extends Phaser.Scene {
 
     }
 
+    screenShake() {
+        this.tweens.add({
+            targets: this.bg,
+            duration: 200,
+            x: { from: 0, to: Math.random() * 5 },
+            y: { from: 0, to: Math.random() * 5 },
+            ease: 'Sine.easeInOut',
+            yoyo: true,
+            repeat: 1
+        });
+        this.tweens.add({
+            targets: this.bg2,
+            duration: 150,
+            x: { from: 0, to: Math.random() * 6 },
+            y: { from: 0, to: Math.random() * 6 },
+            ease: 'Sine.easeInOut',
+            yoyo: true,
+            repeat: 1
+        });
+        this.tweens.add({
+            targets: this.bg3,
+            duration: 100,
+            x: { from: 0, to: Math.random() * 7 },
+            y: { from: 0, to: Math.random() * 7 },
+            ease: 'Sine.easeInOut',
+            yoyo: true,
+            repeat: 1
+        });
+        this.tweens.add({
+            targets: this.bg4,
+            duration: 80,
+            x: { from: 0, to: Math.random() * 8 },
+            y: { from: 0, to: Math.random() * -8 },
+            ease: 'Sine.easeInOut',
+            yoyo: true,
+            repeat: 1
+        });
+    }
+
     shipExplode(ship) {
         if (ship.killed == true) {
             return;
@@ -136,6 +179,8 @@ class Play extends Phaser.Scene {
         console.log(this.p1Score);
 
         this.sound.play('sfx_explosion');
+
+        this.screenShake();
 
         let boom = this.add.sprite(ship.x, ship.y, 'explosion').setOrigin(0, 0);
         boom.anims.play('explode');
