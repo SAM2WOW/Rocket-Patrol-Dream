@@ -13,6 +13,7 @@ class Play extends Phaser.Scene {
         this.load.image('ship', 'assets/spaceship.png');
         this.load.image('bullet', 'assets/bullet.png');
 
+        this.load.image('smoke', 'assets/smoke.png');
         this.load.spritesheet('explosion', 'assets/boom.png', {frameWidth: 256, frameHeight: 256, startFrame: 0, endFrame: 16});
     
         this.load.audio('bgm', 'assets/bgm.ogg');
@@ -76,16 +77,19 @@ class Play extends Phaser.Scene {
         // display score
         this.scoreConfig = {
             fontFamily: 'PixelFont',
-            fontSize: '60px',
+            fontSize: '110px',
             color: '#ffffff',
             align: 'center',
             padding: {
                 top: 5,
                 bottom: 5,
             },
-            fixedWidth: 100
+            fixedWidth: 200
         }
-        this.scoreLeft = this.add.text(game.config.width - borderUISize - borderPadding * 2 - 100, borderUISize + borderPadding * 2, this.p1Score, this.scoreConfig);
+        this.scoreLeft = this.add.text(game.config.width / 2 - 100, borderUISize + borderPadding * 2, this.p1Score, this.scoreConfig);
+        this.scoreLeft.setShadow(2, 2, "#333333", 2, false, true);
+        this.scoreLeft.setDepth(20);
+        this.scoreLeft.setStroke('#000000', 5);
 
         // GAME OVER flag
         this.gameOver = false;
@@ -94,9 +98,27 @@ class Play extends Phaser.Scene {
         this.scoreConfig.fixedWidth = 0;
         this.clock = this.time.delayedCall(game.settings.gameTimer, this.stopGame, null, this);
 
+        // display time left
+        this.timeConfig = {
+            fontFamily: 'PixelFont',
+            fontSize: '60px',
+            color: '#ffffff',
+            align: 'center',
+            padding: {
+                top: 5,
+                bottom: 5,
+            },
+            fixedWidth: 200
+        }
+        this.timeLeft = this.add.text(game.config.width / 2 - 100, borderUISize + borderPadding * 2 + 100, "Time: " + String(Math.floor(this.clock.getOverallRemainingSeconds())), this.timeConfig);
+        this.timeLeft.setShadow(2, 2, "#333333", 2, false, true);
+        this.timeLeft.setDepth(20);
+        this.timeLeft.setStroke('#000000', 5);
+
         // play background music
         this.backgroundMusic = this.sound.add('bgm');
         this.backgroundMusic.setLoop(true);
+        this.backgroundMusic.volume = 0.7;
         this.backgroundMusic.play();
     }
 
@@ -105,6 +127,9 @@ class Play extends Phaser.Scene {
     }
 
     update(time, delta) {
+        // update timer
+        this.timeLeft.setText("Time: " + String(Math.floor(this.clock.getOverallRemainingSeconds())));
+
         // check key input for restart
         if (Phaser.Input.Keyboard.JustDown(keyR)) {
             this.backgroundMusic.stop();
@@ -119,6 +144,7 @@ class Play extends Phaser.Scene {
 
         // update everything
         if (!this.gameOver) {
+            this.bg.tilePositionX -= 0.2 * delta / 16;
             this.bg2.tilePositionX -= 0.4 * delta / 16;
             this.bg3.tilePositionX -= 0.8 * delta / 16;
             this.bg4.tilePositionX -= 1.2 * delta / 16;
@@ -202,7 +228,11 @@ class Play extends Phaser.Scene {
         console.log(ship.points);
         console.log(this.p1Score);
 
-        this.sound.play('sfx_explosion');
+        // play explosion sound
+        this.sfxexplosion = this.sound.add('sfx_explosion');
+        this.sfxexplosion.detune = this.lerp(0, 500, Math.random());
+        this.sfxexplosion.volume = this.lerp(0.5, 1, Math.random());
+        this.sfxexplosion.play();
 
         this.screenShake();
 
@@ -229,10 +259,18 @@ class Play extends Phaser.Scene {
     stopGame() {
         this.gameOver = true;
 
-        this.add.text(game.config.width/2, game.config.height/2, 'GAME OVER', this.scoreConfig).setOrigin(0.5);
-        this.guide = this.add.text(game.config.width/2, game.config.height/2 + 64, 'Press [R] to Restart or [M] for Menu', this.scoreConfig);
+        this.add.text(game.config.width/2, game.config.height/2, 'GAME OVER', this.scoreConfig).setOrigin(0.5).setDepth(20).setStroke('#000000', 5).setShadow(2, 2, "#333333", 2, false, true);;
+        this.guide = this.add.text(game.config.width/2, game.config.height/2 + 100, '[R] Restart | [M] Menu', this.scoreConfig);
         this.guide.setOrigin(0.5, 0.5);
         this.guide.setFontSize(60);
+        this.guide.setDepth(20);
+        this.guide.setShadow(2, 2, "#333333", 2, false, true);
+        this.guide.setStroke('#000000', 5);
+
+        this.ships.getChildren().forEach(function(child) {
+            child.emitter.explode(20, child.x, child.y);
+        }, this);
         
+        this.rocket.emitter.explode(20, this.rocket.x, this.rocket.y);
     }
 }

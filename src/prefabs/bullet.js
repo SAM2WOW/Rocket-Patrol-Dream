@@ -24,12 +24,20 @@ class Bullet extends Phaser.Physics.Arcade.Sprite {
             rotation: { from: this.rotation + Math.PI / 2, to: this.rotation},
             ease: 'Bounce.Out',
             onComplete: () => {
-                this.body.enable = true;
+                if (this) {
+                    this.body.enable = true;
+                }
             }
         });
-    }
 
-    
+        // sounds
+        this.sfxspawn = ['bullet1', 'bullet2', 'bullet3'];
+        var index = Math.round(Math.random() * 2); 
+        this.sfx = this.scene.sound.add(this.sfxspawn[index]);
+        this.sfx.detune = this.scene.lerp(0, 500, Math.random());
+        this.sfx.volume = this.scene.lerp(0.5, 1, Math.random());
+        this.sfx.play();
+    }
 
     update(time, delta) {
         // move bullet

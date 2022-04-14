@@ -19,20 +19,19 @@ class Spaceship extends Phaser.Physics.Arcade.Sprite {
 
         this.reset();
         
-        var particles = this.scene.add.particles('rocket');
+        var particles = this.scene.add.particles('smoke');
         this.emitter = particles.createEmitter({
             x: this.x + 349 - this.width / 2,
             y: this.y + 131 - this.height / 2,
             angle: { min: 80, max: 100 },
-            scaleX: { min: 0.2, max: 0.5 },
-            scaleY: { min: 0.2, max: 0.5 },
+            scale: { min: 0.2, max: 0.4, from: 0.2, ease: 'Cubic.InOut' },
             frequency: 100,
             speed: 100,
             rotate: { min: 0, max: 360 },
             gravityY: 0,
             lifespan: { min: 500, max: 1000 },
             alpha: { start: 1, end: 0 },
-            blendMode: 'OVERLAY'
+            blendMode: 'ADD'
         });
     }
 

@@ -15,6 +15,23 @@ class Rocket extends Phaser.Physics.Arcade.Sprite {
         this.body.setSize(this.abwidth, this.abheight);
 
         this.reset();
+
+        this.setDepth(5);
+
+        var particles = this.scene.add.particles('rocket');
+        this.emitter = particles.createEmitter({
+            x: this.x,
+            y: this.y,
+            angle: { min: 80, max: 100 },
+            scale: { min: 0.2, max: 0.4, from: 0.2, ease: 'Cubic.InOut' },
+            frequency: 100,
+            speed: 100,
+            rotate: { min: 0, max: 360 },
+            gravityY: 0,
+            lifespan: { min: 500, max: 1000 },
+            alpha: { start: 1, end: 0 },
+            blendMode: 'ADD'
+        });
     }
 
     lerp(start, end, amt) {
@@ -22,6 +39,9 @@ class Rocket extends Phaser.Physics.Arcade.Sprite {
     }
 
     update(time, delta) {
+        // move particles
+        this.emitter.setPosition(this.x, this.y);
+
         // move rocket
         if (true) {
             if (keyLEFT.isDown && this.x >= 0) {
@@ -40,6 +60,9 @@ class Rocket extends Phaser.Physics.Arcade.Sprite {
         // fire rocket
         if (Phaser.Input.Keyboard.JustDown(keyF) && !this.isFiring) {
             this.isFiring = true;
+
+            this.sfxRocket.detune = this.lerp(0, 500, Math.random());
+            this.sfxRocket.volume = this.lerp(0.5, 1, Math.random());
             this.sfxRocket.play();
         }
 
