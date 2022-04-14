@@ -127,9 +127,6 @@ class Play extends Phaser.Scene {
     }
 
     update(time, delta) {
-        // update timer
-        this.timeLeft.setText("Time: " + String(Math.floor(this.clock.getOverallRemainingSeconds())) + "s");
-
         // check key input for restart
         if (Phaser.Input.Keyboard.JustDown(keyR)) {
             this.backgroundMusic.stop();
@@ -150,6 +147,9 @@ class Play extends Phaser.Scene {
             this.bg4.tilePositionX -= 1.2 * delta / 16;
 
             this.rocket.update(time, delta);
+
+            // update timer
+            this.timeLeft.setText("Time: " + String(Math.floor(this.clock.getOverallRemainingSeconds())) + "s");
         }
 
         // checking everything
@@ -266,6 +266,8 @@ class Play extends Phaser.Scene {
         this.guide.setDepth(20);
         this.guide.setShadow(2, 2, "#333333", 2, false, true);
         this.guide.setStroke('#000000', 5);
+
+        this.clock.destroy();
 
         this.ships.getChildren().forEach(function(child) {
             child.emitter.explode(20, child.x, child.y);
