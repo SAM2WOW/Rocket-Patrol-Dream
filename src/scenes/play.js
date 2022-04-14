@@ -110,7 +110,7 @@ class Play extends Phaser.Scene {
             },
             fixedWidth: 200
         }
-        this.timeLeft = this.add.text(game.config.width / 2 - 100, borderUISize + borderPadding * 2 + 100, "Time: " + String(Math.floor(this.clock.getOverallRemainingSeconds())), this.timeConfig);
+        this.timeLeft = this.add.text(game.config.width / 2 - 100, borderUISize + borderPadding * 2 + 100, "Time: " + String(Math.floor(this.clock.getOverallRemainingSeconds())) + "s", this.timeConfig);
         this.timeLeft.setShadow(2, 2, "#333333", 2, false, true);
         this.timeLeft.setDepth(20);
         this.timeLeft.setStroke('#000000', 5);
@@ -128,7 +128,7 @@ class Play extends Phaser.Scene {
 
     update(time, delta) {
         // update timer
-        this.timeLeft.setText("Time: " + String(Math.floor(this.clock.getOverallRemainingSeconds())));
+        this.timeLeft.setText("Time: " + String(Math.floor(this.clock.getOverallRemainingSeconds())) + "s");
 
         // check key input for restart
         if (Phaser.Input.Keyboard.JustDown(keyR)) {

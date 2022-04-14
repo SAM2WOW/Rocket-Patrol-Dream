@@ -1,3 +1,25 @@
+// Name: Sam Feng
+// Project Title: Sweet Dream
+// Date: 4/14/2022
+// Time Spent: 10 hours
+
+// All assets are created by myself or edited from CC0 web assets
+ 
+// #FACADE Tier (confimed with professor Adam)
+// new object: Bullets (40)
+// new art for objects (20)
+// new randomize sound effects (10)
+// new music (5)
+// Display the time remaining (in seconds) on the screen (10)
+// new title screen design (10)
+// screen shake (5)
+
+// ADDITIONAL WORKS
+// Implement parallax scrolling (10)
+// Allow the player to control the Rocket after it's fired (5)
+// Use Phaser's particle emitter (20)
+// Redesign the game's artwork, UI, and sound to change its theme/aesthetic (to something other than sci-fi) (60)
+
 var config = {
     type: Phaser.AUTO,
     scale: {
