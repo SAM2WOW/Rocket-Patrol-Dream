@@ -3,7 +3,7 @@
 // Date: 4/14/2022
 // Time Spent: 10 hours
 
-// All assets are created by myself or edited from CC0 web assets
+// Assets are created by myself or edited from CC0 web assets
  
 // #FACADE Tier (confimed with professor Adam)
 // new object: Bullets (40)
