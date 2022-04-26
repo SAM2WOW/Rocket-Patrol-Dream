@@ -72,6 +72,11 @@ class Rocket extends Phaser.Physics.Arcade.Sprite {
             this.setRotation(this.lerp(this.rotation, 0, 0.1));
         }
 
+        //boost rocket
+        if (this.isFiring && this.y >= 0 - this.height / 2 && Phaser.Input.Keyboard.JustDown(keyUP)) {
+            console.log("NYOOM");
+        }
+
         // reset rocket
         if (this.y <= 0 - this.height / 2) {
             this.reset();

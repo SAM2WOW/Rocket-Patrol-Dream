@@ -70,6 +70,7 @@ class Play extends Phaser.Scene {
         keyM = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.M);
         keyLEFT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
         keyRIGHT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT);
+        keyUP = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.UP);
         
         // initialize score
         this.p1Score = 0;
